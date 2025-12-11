@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>設定</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>設定</h1>
+    <nav><a href="home.html">主頁</a></nav>
+</header>
+
+<section class="settings">
+    <h2>主題模式</h2>
+    <button onclick="setTheme('light')">淺色</button>
+    <button onclick="setTheme('dark')">深色</button>
+
+    <h2>番茄鐘設定</h2>
+    <p>可在 Pomodoro 頁面自訂長度</p>
+
+    <h2>推播通知 / 語言 / 匯出資料 / 隱私與安全 / 關於我們</h2>
+    <p>功能示範 (可依需求擴充)</p>
+</section>
+
+<script>
+function setTheme(mode){
+    if(mode==='dark'){ document.body.style.background='#222'; document.body.style.color='white'; }
+    else { document.body.style.background='#f3f3f3'; document.body.style.color='black'; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>學習時光管理 - 首頁</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>學習時光管理</h1>
+    <nav>
+        <a href="home.html">主頁</a> |
+        <a href="create_task.html">新增任務</a> |
+        <a href="pomodoro.html">番茄鐘</a> |
+        <a href="calendar.html">學習日曆</a> |
+        <a href="statistics.html">統計分析</a> |
+        <a href="settings.html">設定</a>
+    </nav>
+</header>
+
+<!-- 今日摘要 -->
+<section class="summary">
+    <h2>今日概覽</h2>
+    <p>今日總學習時間：<span id="todayTime">0 小時 0 分</span></p>
+    <p>今日已完成任務：<span id="todayTasks">0/0</span></p>
+</section>
+
+<!-- 快速功能入口 -->
+<section class="quick-actions">
+    <h2>快速功能入口</h2>
+    <button onclick="location.href='pomodoro.html'">番茄鐘</button>
+    <button onclick="location.href='create_task.html'">新增任務</button>
+    <button onclick="location.href='calendar.html'">學習日曆</button>
+    <button onclick="location.href='statistics.html'">統計分析</button>
+</section>
+
+<!-- 今日待辦清單 -->
+<section class="todo-list">
+    <h2>今日待辦</h2>
+    <ul id="taskListHome"></ul>
+    <button onclick="location.href='create_task.html'">新增任務</button>
+</section>
+
+<script src="script.js"></script>
+<script>
+function loadHome(){
+    // Load tasks
+    let tasks = JSON.parse(localStorage.getItem('tasks'))||[];
+    let taskList = document.getElementById('taskListHome');
+    taskList.innerHTML='';
+    let completed = 0;
+    tasks.forEach(task=>{
+        if(task.date === new Date().toLocaleDateString()){
+            let li = document.createElement('li');
+            li.innerText = `${task.name} — ${task.duration} 分鐘`;
+            if(task.completed) completed++;
+            taskList.appendChild(li);
+        }
+    });
+
+    document.getElementById('todayTasks').innerText = `${completed}/${tasks.length}`;
+    
+    // Load time
+    let data = JSON.parse(localStorage.getItem('studyTime'))||{};
+    let today = new Date().toLocaleDateString();
+    let sec = data[today]||0;
+    let h = Math.floor(sec/3600);
+    let m = Math.floor((sec%3600)/60);
+    document.getElementById('todayTime').innerText = `${h} 小時 ${m} 分`;
+}
+
+window.onload = loadHome;
+</script>
+</body>
+</html>

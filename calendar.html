@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>學習日曆</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>學習日曆</h1>
+    <nav><a href="home.html">主頁</a></nav>
+</header>
+
+<section class="calendar">
+    <div id="calendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:20px;"></div>
+</section>
+
+<script>
+let calendarGrid = document.getElementById('calendarGrid');
+let data = JSON.parse(localStorage.getItem('studyTime'))||{};
+
+function renderCalendar(){
+    calendarGrid.innerHTML='';
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+    let firstDay = new Date(year, month, 1).getDay(); // 0-6
+    let daysInMonth = new Date(year, month+1, 0).getDate();
+
+    // Add empty cells for first day
+    for(let i=0;i<firstDay;i++){ let empty = document.createElement('div'); calendarGrid.appendChild(empty); }
+
+    for(let day=1;day<=daysInMonth;day++){
+        let date = new Date(year, month, day);
+        let key = date.toLocaleDateString();
+        let cell = document.createElement('div');
+        cell.innerText = day;
+        cell.style.padding='10px';
+        cell.style.border='1px solid #ccc';
+        cell.style.borderRadius='5px';
+        cell.style.cursor='pointer';
+        let sec = data[key]||0;
+        let colorIntensity = Math.min(Math.floor(sec/3600*255),200);
+        cell.style.background=`rgb(${255-colorIntensity},${255},${255-colorIntensity})`;
+        cell.onclick = ()=>{ alert(`查看 ${key} 的學習紀錄：${Math.floor(sec/60)} 分鐘`) };
+        calendarGrid.appendChild(cell);
+    }
+}
+
+window.onload = renderCalendar;
+</script>
+</body>
+</html>

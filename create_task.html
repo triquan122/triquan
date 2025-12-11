@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>新增學習任務</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>新增學習任務</h1>
+    <nav>
+        <a href="home.html">主頁</a> |
+        <a href="pomodoro.html">番茄鐘</a>
+    </nav>
+</header>
+
+<section class="create-task">
+    <label>任務名稱<input type="text" id="taskName"></label><br>
+    <label>預計時間 (分鐘)<input type="number" id="taskDuration"></label><br>
+    <label>日期<input type="date" id="taskDate" value=""></label><br>
+    <label>標籤<select id="taskTag">
+        <option>語言</option>
+        <option>理科</option>
+        <option>文科</option>
+        <option>自訂</option>
+    </select></label><br>
+    <label>提醒時間 (可選)<input type="time" id="taskReminder"></label><br>
+    <button onclick="saveTask()">保存任務</button>
+    <button onclick="location.href='home.html'">取消</button>
+</section>
+
+<script src="script.js"></script>
+<script>
+document.getElementById('taskDate').value = new Date().toISOString().split('T')[0];
+
+function saveTask(){
+    let name = document.getElementById('taskName').value.trim();
+    let duration = parseInt(document.getElementById('taskDuration').value);
+    let date = document.getElementById('taskDate').value;
+    let tag = document.getElementById('taskTag').value;
+    let reminder = document.getElementById('taskReminder').value;
+    if(!name || !duration || !date){ alert('請填寫必要欄位'); return;}
+    let tasks = JSON.parse(localStorage.getItem('tasks'))||[];
+    tasks.push({name,duration,date,tag,reminder,completed:false});
+    localStorage.setItem('tasks',JSON.stringify(tasks));
+    alert('任務已保存');
+    location.href='home.html';
+}
+</script>
+</body>
+</html>

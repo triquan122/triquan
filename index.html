@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>學習時光管理</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Thêm vào phần <body> nơi bạn để slides -->
+<div class="slide" id="slide5">
+  <div class="overlay"></div>
+  <div class="content">
+    <h1>提高每天學習效率！</h1>
+    <p>學習時間管理應用</p>
+  </div>
+</div>
+
+<div class="slide" id="slide6">
+  <div class="overlay"></div>
+  <div class="content">
+    <h1>提高每天學習效率！</h1>
+    <p>學習時間管理應用/p>
+  </div>
+</div>
+
+<div class="slide" id="slide7">
+  <div class="overlay"></div>
+  <div class="content">
+    <h1提高每天學習效率<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        
+    </body>
+    </html></h1>
+    <p>學習時間管理應用</p>
+  </div>
+</div>
+
+<!-- 新加 slide — nhóm học / họp nhóm / học chung -->
+<div class="slide" id="slide8">
+  <div class="overlay"></div>
+  <div class="content">
+    <h1>一起學習，更有效率！</h1>
+    <p>小組討論／合作學習</p>
+  </div>
+</div>
+
+<div class="slide" id="slide9">
+  <div class="overlay"></div>
+  <div class="content">
+    <h1>專注於目標</h1>
+    <p>創造你的學習節奏</p>
+  </div>
+</div>
+
+<!-- CSS thêm cho ảnh nền từng slide -->
+<style>
+  /* Các background ảnh từ Unsplash */
+  #slide5 {
+    background-image: url('images/photo-1500989145603-8e7ef71d639e.avif');
+}
+
+  #slide6 {
+    background-image: url('https://source.unsplash.com/800x600/?books,library');
+  }
+  #slide7 {
+    background-image: url('https://source.unsplash.com/800x600/?students,classroom');
+  }
+  #slide8 {
+    background-image: url('https://source.unsplash.com/800x600/?study-group');
+  }
+  #slide9 {
+    background-image: url('https://source.unsplash.com/800x600/?people,meeting,study');
+  }
+
+  .slide {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: none; /* ẩn slide mặc định, JS sẽ show slide hiện tại */
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: white;
+  }
+
+  /* overlay tối để chữ nổi bật hơn */
+  .slide .overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* 40% đen mờ */
+    pointer-events: none;
+  }
+
+  .slide .content {
+    position: relative; /* cho nổi lên trên overlay */
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 20px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+  }
+
+  .slide .content h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5em;
+  }
+  .slide .content p {
+    font-size: 1.5rem;
+  }
+</style>
+
+<!-- JS để slide hoạt động (nếu bạn dùng sẵn code slide) -->
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let currentSlide = 0;
+
+  function showSlide(index) {
+    slides.forEach((s, i) => {
+      s.style.display = (i === index ? 'block' : 'none');
+    });
+  }
+
+  // Show slide đầu tiên khi load
+  showSlide(currentSlide);
+
+  // Nếu bạn có nút next/back, ví dụ:
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  }
+</script>
+
+<!-- Splash Screen -->
+<div id="splashScreen">
+    <div class="splash-content">
+        <div class="splash-icon">📚⏰</div>
+        <h1>學習時光管理</h1>
+        <p>讓每一分鐘都變得更有價值</p>
+    </div>
+</div>
+
+<!-- Welcome Page -->
+<div id="welcomePage" style="display:none;">
+    <h1>歡迎使用「學習時光管理」！</h1>
+    <p>開始打造更有效率的學習生活。</p>
+    <button onclick="goToOnboarding()">開始使用</button>
+    <button onclick="alert('登入功能示範')">登入帳號</button>
+    <button onclick="alert('建立帳號示範')">建立新帳號</button>
+</div>
+
+<script>
+window.onload = function(){
+    // Splash Screen hiển thị 3 giây
+    setTimeout(() => {
+        document.getElementById('splashScreen').style.display='none';
+        document.getElementById('welcomePage').style.display='block';
+    }, 3000);
+}
+
+// Chuyển sang Onboarding
+function goToOnboarding(){
+    window.location.href='onboarding.html';
+}
+</script>
+</body>
+</html>

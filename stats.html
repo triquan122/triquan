@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>學習統計</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header>
+    <h1>學習統計</h1>
+    <nav>
+        <a href="index.html">主頁</a> |
+        <a href="tasks.html">任務清單</a> |
+        <a href="notes.html">筆記</a> |
+        <a href="settings.html">設定</a>
+    </nav>
+</header>
+
+<section class="chart-section">
+    <h2>本週學習統計 (分鐘)</h2>
+    <canvas id="weeklyChart" width="400" height="200"></canvas>
+</section>
+
+<script src="script.js"></script>
+<script>
+function loadWeeklyChart() {
+    let ctx = document.getElementById('weeklyChart');
+    if(!ctx) return;
+    let data = JSON.parse(localStorage.getItem('studyTime')) || {};
+    let today = new Date();
+    let labels = [];
+    let values = [];
+
+    // Lấy 7 ngày gần nhất
+    for(let i=6;i>=0;i--){
+        let d = new Date(today);
+        d.setDate(today.getDate()-i);
+        let key = d.toLocaleDateString();
+        labels.push(key);
+        values.push(data[key] ? Math.floor(data[key]/60) : 0);
+    }
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '每日學習時間（分鐘）',
+                data: values,
+                backgroundColor: '#4a90e2'
+            }]
+        },
+        options: { responsive:true, scales:{y:{beginAtZero:true}} }
+    });
+}
+
+window.onload = loadWeeklyChart;
+</script>
+</body>
+</html>
