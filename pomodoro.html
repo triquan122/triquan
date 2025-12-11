@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>專注模式</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>專注模式</h1>
+    <nav><a href="home.html">主頁</a></nav>
+</header>
+
+<section class="pomodoro">
+    <h2>倒數時間：<span id="pomodoroTimer">25:00</span></h2>
+    <p>模式：專注 25 分鐘 / 短休息 5 分鐘 / 長休息 15 分鐘</p>
+    <button onclick="startPomodoro()">開始</button>
+    <button onclick="pausePomodoro()">暫停</button>
+    <button onclick="endPomodoro()">結束</button>
+</section>
+
+<script>
+let pomodoroSec = 25*60;
+let pomodoroInterval;
+
+function updatePomodoroDisplay(){
+    let m = String(Math.floor(pomodoroSec/60)).padStart(2,'0');
+    let s = String(pomodoroSec%60).padStart(2,'0');
+    document.getElementById('pomodoroTimer').innerText = `${m}:${s}`;
+}
+
+function startPomodoro(){
+    clearInterval(pomodoroInterval);
+    pomodoroInterval = setInterval(()=>{
+        pomodoroSec--;
+        if(pomodoroSec<0){ clearInterval(pomodoroInterval); alert('番茄鐘結束！'); pomodoroSec=25*60; }
+        updatePomodoroDisplay();
+    },1000);
+}
+
+function pausePomodoro(){ clearInterval(pomodoroInterval); }
+function endPomodoro(){ clearInterval(pomodoroInterval); pomodoroSec=25*60; updatePomodoroDisplay(); }
+
+updatePomodoroDisplay();
+</script>
+</body>
+</html>

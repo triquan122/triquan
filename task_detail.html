@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>任務詳情</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>任務詳情</h1>
+    <nav><a href="home.html">主頁</a></nav>
+</header>
+
+<section class="task-detail">
+    <label>任務名稱<input type="text" id="taskName"></label><br>
+    <label>預計時間<input type="number" id="taskDuration"> 分鐘</label><br>
+    <label>已投入時間：<span id="taskSpent">0</span> 分鐘</label><br>
+    <label>任務描述<textarea id="taskDesc"></textarea></label><br>
+    <label>提醒時間<input type="time" id="taskReminder"></label><br>
+    <label>狀態
+        <select id="taskStatus">
+            <option>未開始</option>
+            <option>進行中</option>
+            <option>已完成</option>
+        </select>
+    </label><br>
+    <button onclick="saveTaskDetail()">編輯任務</button>
+    <button onclick="deleteTaskDetail()">刪除任務</button>
+</section>
+
+<script>
+let taskIndex = 0; // Ví dụ task đầu tiên
+let tasks = JSON.parse(localStorage.getItem('tasks'))||[];
+function loadTaskDetail(){
+    if(!tasks[taskIndex]) return;
+    let t = tasks[taskIndex];
+    document.getElementById('taskName').value = t.name;
+    document.getElementById('taskDuration').value = t.duration;
+    document.getElementById('taskSpent').innerText = t.spent||0;
+    document.getElementById('taskDesc').value = t.desc||'';
+    document.getElementById('taskReminder').value = t.reminder||'';
+    document.getElementById('taskStatus').value = t.completed?'已完成':(t.status||'未開始');
+}
+
+function saveTaskDetail(){
+    let t = tasks[taskIndex];
+    t.name = document.getElementById('taskName').value;
+    t.duration = parseInt(document.getElementById('taskDuration').value);
+    t.desc = document.getElementById('taskDesc').value;
+    t.reminder = document.getElementById('taskReminder').value;
+    t.status = document.getElementById('taskStatus').value;
+    t.completed = (t.status==='已完成');
+    localStorage.setItem('tasks',JSON.stringify(tasks));
+    alert('任務已更新');
+}
+
+function deleteTaskDetail(){
+    if(confirm('確定刪除任務？')){
+        tasks.splice(taskIndex,1);
+        localStorage.setItem('tasks',JSON.stringify(tasks));
+        alert('任務已刪除');
+        window.location.href='home.html';
+    }
+}
+
+window.onload = loadTaskDetail;
+</script>
+</body>
+</html>

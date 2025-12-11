@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>統計分析</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header>
+    <h1>統計分析</h1>
+    <nav><a href="home.html">主頁</a></nav>
+</header>
+
+<section class="statistics">
+    <h2>每週學習時間</h2>
+    <canvas id="weeklyChart"></canvas>
+
+    <h2>每月學習時數</h2>
+    <canvas id="monthlyChart"></canvas>
+
+    <h2>科目占比</h2>
+    <canvas id="subjectChart"></canvas>
+
+    <p>本週總學習時間：<span id="weekTotal">0 小時 0 分</span></p>
+    <p>最專注的日期：<span id="bestDay">無</span></p>
+</section>
+
+<script>
+let studyData = JSON.parse(localStorage.getItem('studyTime'))||{};
+let tasks = JSON.parse(localStorage.getItem('tasks'))||[];
+
+function renderStatistics(){
+    // 每週柱狀圖
+    let labelsWeek=[], valuesWeek=[];
+    let today = new Date();
+    for(let i=6;i>=0;i--){
+        let d = new Date(today); d.setDate(today.getDate()-i);
+        let key = d.toLocaleDateString();
+        labelsWeek.push(key);
+        valuesWeek.push(Math.floor((studyData[key]||0)/60));
+    }
+    new Chart(document.getElementById('weeklyChart'),{
+        type:'bar',
+        data:{labels:labelsWeek,datasets:[{label:'每日學習時間(分鐘)',data:valuesWeek,backgroundColor:'#4a90e2'}]},
+        options:{responsive:true,scales:{y:{beginAtZero:true}}}
+    });
+
+    // 每月折線圖
+    let labelsMonth=[], valuesMonth=[];
+    for(let i=1;i<=31;i++){
+        labelsMonth.push(i);
+        let total=0;
+        for(let t of tasks){ if(new Date(t.date).getDate()===i) total+=t.duration;}
+        valuesMonth.push(total);
+    }
+    new Chart(document.getElementById('monthlyChart'),{
+        type:'line',
+        data:{labels:labelsMonth,datasets:[{label:'每月學習時數(分鐘)',data:valuesMonth,borderColor:'#50e3c2',fill:false}]},
+        options:{responsive:true}
+    });
+
+    // 科目占比圓餅圖
+    let subjects={'語言':0,'數學':0,'理科':0,'文科':0,'自訂':0};
+    for(let t of tasks){ subjects[t.tag]= (subjects[t.tag]||0)+t.duration; }
+    new Chart(document.getElementById('subjectChart'),{
+        type:'pie',
+        data:{labels:Object.keys(subjects),datasets:[{data:Object.values(subjects),backgroundColor:['#4a90e2','#50e3c2','#f5a623','#9013fe','#ff4d4d']}]},
+        options:{responsive:true}
+    });
+
+    // 文字摘要
+    let weekTotal = valuesWeek.reduce((a,b)=>a+b,0);
+    document.getElementById('weekTotal').innerText = `${Math.floor(weekTotal/60)} 小時 ${weekTotal%60} 分`;
+    let maxVal = Math.max(...valuesWeek);
+    let bestIndex = valuesWeek.indexOf(maxVal);
+    document.getElementById('bestDay').innerText = labelsWeek[bestIndex]||'無';
+}
+
+window.onload=renderStatistics;
+</script>
+</body>
+</html>

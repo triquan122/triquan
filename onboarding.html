@@ -1,0 +1,131 @@
+<!-- Onboarding Slides -->
+<div class="slide" id="slide1">
+    <h2>規劃你的學習計畫</h2>
+    <p>快速建立每日學習目標<br>清楚掌握每一項任務</p>
+</div>
+
+<div class="slide" id="slide2">
+    <h2>專注模式（番茄鐘）</h2>
+    <p>使用番茄鐘提高專注力<br>避免分心，提高效率</p>
+</div>
+
+<div class="slide" id="slide3">
+    <h2>自動統計學習時間</h2>
+    <p>詳細數據分析<br>掌握你的學習進度與成長</p>
+</div>
+
+<div class="slide" id="slide4">
+    <h2>自訂提醒通知</h2>
+    <p>不再忘記重要的計畫<br>自動提醒讓你保持節奏</p>
+</div>
+
+<div class="slide-buttons">
+    <button onclick="prevSlide()">上一頁</button>
+    <button onclick="nextSlide()">下一步</button>
+    <button onclick="startApp()">跳過</button>
+</div>
+
+<style>
+/* CSS Onboarding */
+.slide {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* chữ nhích từ trên xuống */
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding-top: 200px; /* nhích chữ xuống */
+}
+
+.slide::before {
+    content: '';
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.4); /* lớp mờ phía sau chữ */
+    z-index: 1;
+}
+
+.slide h2, .slide p {
+    position: relative;
+    z-index: 2;
+    margin: 0.5rem 0;
+}
+
+.slide h2 {
+    font-size: 4rem; /* chữ to */
+}
+
+.slide p {
+    font-size: 2rem; /* chữ to */
+}
+
+/* Nút luôn ở dưới cùng */
+.slide-buttons {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.slide-buttons button {
+    background-color: #007BFF; /* xanh dương */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.slide-buttons button:hover {
+    background-color: #0056b3;
+}
+
+/* Ảnh nền cho từng slide */
+#slide1 { background-image: url('images/photo-1612831197310-ff5cf7a211b6.avif'); }
+#slide2 { background-image: url('images/premium_photo-1661333596510-33d60b54ad80.avif'); }
+#slide3 { background-image: url('images/photo-1434030216411-0b793f4b4173.avif'); }
+#slide4 { background-image: url('images/photo-1522202176988-66273c2fd55f.avif'); }
+
+</style>
+
+<script>
+let currentSlide = 1;
+
+function showSlide(n){
+    for(let i=1; i<=4; i++){
+        document.getElementById('slide'+i).style.display = (i===n) ? 'flex' : 'none';
+    }
+}
+
+// Khởi động slide đầu tiên
+showSlide(currentSlide);
+
+function nextSlide(){
+    if(currentSlide < 4){ 
+        currentSlide++; 
+        showSlide(currentSlide);
+    } else {
+        startApp();
+    }
+}
+
+function prevSlide(){
+    if(currentSlide > 1){ 
+        currentSlide--; 
+        showSlide(currentSlide);
+    }
+}
+
+function startApp(){
+    window.location.href='home.html'; // chuyển tới trang chủ
+}
+</script>
